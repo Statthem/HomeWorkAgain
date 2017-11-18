@@ -106,5 +106,51 @@ public class Utils {
 
     }
 
+    static public class Update{
 
-}
+        public static void doUpdate(Statement statement,String table,String column1,String value1,String column2,String value2,int id){
+
+            String sql = "Update "+ table +" Set " + column1 +  " = '"+ value1 +"'," + column2 + " = '"+ value2 +"' Where id = "+ id +";";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static void doUpdate(Statement statement,String table,String column1,String value1,int id){
+
+            String sql = "Update "+ table +" Set " + column1 +  " = '"+ value1 +"'  Where id = "+ id +";";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    static public class Delete{
+         public static void doDelete(Statement statement,String from,int id){
+             String sql = "Delete from " + from + " where id = " + id + ";";
+             try {
+                 statement.executeUpdate(sql);
+             } catch (SQLException e) {
+                 e.printStackTrace();
+             }
+         }
+
+
+        public static void doDelete(Statement statement,String from,String columnName,int id){
+            String sql = "Delete from " + from + " where "+columnName +" = " + id + ";";
+            try {
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+         }
+
+    }
+
+

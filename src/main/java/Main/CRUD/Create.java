@@ -11,6 +11,12 @@ import java.sql.Statement;
 public class Create {
 
     private boolean b = true;
+    private boolean skillOrProject;
+
+    private boolean companyOrNot =  false;
+    private boolean developerOrNot = false;
+    private boolean customerOrNot = false;
+
 
     private int DeveloperId;
     private int skillId;
@@ -20,17 +26,16 @@ public class Create {
 
 
     public void createDeveloper(Statement statement) {
+        developerOrNot = true;
         String first_name;
-
         String second_name;
 
         System.out.println("Введите имя");
         first_name = Utils.consoleReader();
-
         System.out.println("Введите фамилию");
         second_name = Utils.consoleReader();
 
-         DeveloperId = Utils.Select.getId(statement, "id", "developers", "FIRST_NAME", "SECOND_NAME", first_name, second_name);
+        DeveloperId = Utils.Select.getId(statement, "id", "developers", "FIRST_NAME", "SECOND_NAME", first_name, second_name);
 
         if (DeveloperId == 0) {
             String insertQuery =
@@ -80,15 +85,22 @@ public class Create {
             }
 
         } else {
-            //Добавить вызов метода addToDevelopers_Projects();
 
-            AddToDeveloper_Skill(statement,DeveloperId,skillId);
+            if (skillOrProject) {
+                AddToDeveloper_Skill(statement, DeveloperId, skillId);
+            } else {
+                AddToDevelopers_Projects(statement, DeveloperId, projectId);
+
+
+            }
+
+            b = true;
+            developerOrNot = false;
         }
-
-        b = true;
     }
 
     public void createSkill(Statement statement) {
+        skillOrProject = true;
 
         String skill;
 
@@ -141,6 +153,8 @@ public class Create {
 
     public  void  createProject(Statement statement){
 
+        skillOrProject = false;
+
         String project_name;
         String project_description;
 
@@ -183,7 +197,17 @@ public class Create {
             }
 
         } else {
-            AddToDevelopers_Projects(statement,DeveloperId,projectId);
+
+            if(developerOrNot) {
+                AddToDevelopers_Projects(statement, DeveloperId, projectId);
+            }
+            if(companyOrNot){
+                AddToCompanies_Projects(statement,companyId,projectId);
+            }
+            if(customerOrNot){
+                AddToCustomers_Projects(statement,customerId,projectId);
+            }
+
         }
 
         b = true;
@@ -191,6 +215,7 @@ public class Create {
     }
 
     public  void  createCompany(Statement statement){
+        companyOrNot = true;
 
         String company_name;
         String project_description;
@@ -237,11 +262,11 @@ public class Create {
         }
 
         b = true;
-
+        companyOrNot = false;
     }
 
     public  void  createCustomer(Statement statement){
-
+        customerOrNot = true;
         String customer_name;
 
 
@@ -283,12 +308,12 @@ public class Create {
             }
 
         } else {
-
+            AddToCustomers_Projects(statement,customerId,projectId);
         }
 
 
         b = true;
-
+        customerOrNot = false;
     }
 
 
@@ -303,9 +328,9 @@ public class Create {
 
     }
 
-    private void AddToDevelopers_Projects(Statement statement, int DeveloperId, int ProjectId) {
+    private void AddToDevelopers_Projects(Statement statement, int DeveloperId, int projectId) {
 
-        String sql = "Insert into developers_projects Values('" + DeveloperId + "','" + ProjectId + "')";
+        String sql = "Insert into developers_projects Values('" + DeveloperId + "','" + projectId + "')";
         try {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
