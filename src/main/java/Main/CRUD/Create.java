@@ -15,6 +15,9 @@ public class Create {
     private int DeveloperId;
     private int skillId;
     private int projectId;
+    private int companyId;
+    private int customerId;
+
 
     public void createDeveloper(Statement statement) {
         String first_name;
@@ -77,6 +80,8 @@ public class Create {
             }
 
         } else {
+            //Добавить вызов метода addToDevelopers_Projects();
+
             AddToDeveloper_Skill(statement,DeveloperId,skillId);
         }
 
@@ -158,6 +163,27 @@ public class Create {
 
     }
 
+    private void AddToCompanies_Projects(Statement statement, int companyId, int projectId) {
+
+        String sql = "Insert into companies_projects Values('" + companyId + "','" + projectId + "')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void AddToCustomers_Projects(Statement statement, int customerId, int projectId) {
+
+        String sql = "Insert into customers_projects Values('" + customerId + "','" + projectId + "')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public  void  createProject(Statement statement){
 
@@ -211,7 +237,105 @@ public class Create {
     }
 
 
+    public  void  createCompany(Statement statement){
 
+        String company_name;
+        String project_description;
+
+        System.out.println("Введите имя компании");
+        company_name = Utils.consoleReader();
+
+
+        companyId = Utils.Select.getId(statement,"id","companies","companie_name",company_name);
+
+        if (companyId == 0) {
+            String insertQuery =
+                    "insert into companies(companie_name)" + "Values('" + company_name + "')";
+            try {
+                statement.executeUpdate(insertQuery);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            companyId = Utils.Select.getId(statement,"id","companies","companie_name",company_name);
+        }
+
+        if (b) {
+
+            String answer = null;
+            System.out.println("Хотите ли вы добавить проэкт (Yes/No) ");
+
+            answer = Utils.consoleReaderEmpty();
+
+            switch (answer) {
+                case "Yes":
+                    b = false;
+                    createProject(statement);
+                    break;
+                case "yes":
+                    b = false;
+                    createProject(statement);
+                    break;
+
+            }
+
+        } else {
+
+        }
+
+        b = true;
+
+    }
+
+    public  void  createCustomer(Statement statement){
+
+        String customer_name;
+
+
+        System.out.println("Введите имя клиента");
+        customer_name = Utils.consoleReader();
+
+
+        customerId = Utils.Select.getId(statement,"id","customers","customer_name",customer_name);
+
+        if (companyId == 0) {
+            String insertQuery =
+                    "insert into customers(customer_name)" + "Values('" + customer_name + "')";
+            try {
+                statement.executeUpdate(insertQuery);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            customerId = Utils.Select.getId(statement,"id","customers","customer_name",customer_name);
+        }
+/*
+
+        if (b) {
+
+            String answer = null;
+            System.out.println("Хотите ли вы добавить проэкт (Yes/No) ");
+
+            answer = Utils.consoleReaderEmpty();
+
+            switch (answer) {
+                case "Yes":
+                    b = false;
+                    createProject(statement);
+                    break;
+                case "yes":
+                    b = false;
+                    createProject(statement);
+                    break;
+
+            }
+
+        } else {
+
+        }
+*/
+
+        b = true;
+
+    }
 
 
 
