@@ -88,7 +88,6 @@ public class Create {
         b = true;
     }
 
-
     public void createSkill(Statement statement) {
 
         String skill;
@@ -140,51 +139,6 @@ public class Create {
 
     }
 
-
-    private void AddToDeveloper_Skill(Statement statement, int DeveloperId, int SkillId) {
-
-        String sql = "Insert into developers_skills Values('" + DeveloperId + "','" + SkillId + "')";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void AddToDevelopers_Projects(Statement statement, int DeveloperId, int ProjectId) {
-
-        String sql = "Insert into developers_projects Values('" + DeveloperId + "','" + ProjectId + "')";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void AddToCompanies_Projects(Statement statement, int companyId, int projectId) {
-
-        String sql = "Insert into companies_projects Values('" + companyId + "','" + projectId + "')";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void AddToCustomers_Projects(Statement statement, int customerId, int projectId) {
-
-        String sql = "Insert into customers_projects Values('" + customerId + "','" + projectId + "')";
-        try {
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     public  void  createProject(Statement statement){
 
         String project_name;
@@ -229,13 +183,12 @@ public class Create {
             }
 
         } else {
-            AddToDeveloper_Skill(statement,DeveloperId,projectId);
+            AddToDevelopers_Projects(statement,DeveloperId,projectId);
         }
 
         b = true;
 
     }
-
 
     public  void  createCompany(Statement statement){
 
@@ -280,6 +233,7 @@ public class Create {
 
         } else {
 
+            AddToCompanies_Projects(statement,companyId,projectId);
         }
 
         b = true;
@@ -307,7 +261,7 @@ public class Create {
             }
             customerId = Utils.Select.getId(statement,"id","customers","customer_name",customer_name);
         }
-/*
+
 
         if (b) {
 
@@ -331,12 +285,56 @@ public class Create {
         } else {
 
         }
-*/
+
 
         b = true;
 
     }
 
+
+    private void AddToDeveloper_Skill(Statement statement, int DeveloperId, int SkillId) {
+
+        String sql = "Insert into developers_skills Values('" + DeveloperId + "','" + SkillId + "')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void AddToDevelopers_Projects(Statement statement, int DeveloperId, int ProjectId) {
+
+        String sql = "Insert into developers_projects Values('" + DeveloperId + "','" + ProjectId + "')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void AddToCompanies_Projects(Statement statement, int companyId, int projectId) {
+
+        String sql = "Insert into companies_projects Values('" + companyId + "','" + projectId + "')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void AddToCustomers_Projects(Statement statement, int customerId, int projectId) {
+
+        String sql = "Insert into customers_projects Values('" + customerId + "','" + projectId + "')";
+        try {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 
